@@ -2,9 +2,10 @@
 session_start();
 if(isset($_SESSION['logined'])){
   session_unset();
-  echo $_SESSION['logined'];
+  echo "<a href='login-form.php'>Login page</a>";
+
 }
 else{
-  echo "logined not";
+  header('location:login.form.php');
 }
 ?>

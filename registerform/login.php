@@ -15,7 +15,7 @@ $result = mysqli_query($conn,$sql);
 if($res>0)
 {
     $_SESSION['logined']=$password;
-    header('location:index.php');
+    header('location:display.php');
 
 }
 else{
