@@ -31,6 +31,7 @@ if(isset($_SESSION['logined'])){
     <thead>
       <tr>
       <th scope="col">Id</th>
+      <th scope="col">Profile Image</th>
       <th scope="col">Name</th>
       <th scope="col">Email</th>
       <th scope="col">Address</th>
@@ -44,6 +45,7 @@ if(isset($_SESSION['logined'])){
     while($details=mysqli_fetch_assoc($data)){
     echo "<tr>
     <td>".$details['id']."</td>
+    <td><img src='".$details['profile_image']."'height='100px' width='100px'></td>
     <td>".$details['name']."</td>
     <td>".$details['email']."</td>
     <td>".$details['address']."</td>

@@ -84,37 +84,42 @@ if(isset($_SESSION['logined'])){
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Create an account</h2>
 
-              <form action="register.php" method="POST">
+              <form action="register.php" method="POST" enctype="multipart/form-data">
 
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg"class="form-control form-control-lg" name="name" />
+                  <input type="text" id="form3Example1cg"class="form-control form-control-lg" name="name" required/>
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example3cg" class="form-control form-control-lg" name="email" />
+                <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" required/>
+                  <label class="form-label" for="form3Example1cg">Profile Image</label>
+                </div>
+
+                <div class="form-outline mb-4">
+                  <input type="text" id="form3Example3cg" class="form-control form-control-lg" name="email" required/>
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                   <span><?php if(isset($emailErr)){echo $emailErr;}?></span>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="address" />
+                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="address" required/>
                   <label class="form-label" for="form3Example4cdg">Address</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="phone" />
+                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="phone" required/>
                   <label class="form-label" for="form3Example4cdg">Phone Number</label>
                 </div>
                 
                 <div class="form-outline mb-4">
-                  <input type="password" id="password" class="form-control form-control-lg" name="pass" value="" />
+                  <input type="password" id="password" class="form-control form-control-lg" name="pass" value="" required />
                   <label class="form-label" for="form3Example4cg">Password</label> <br>
                   <span id="password-error" style="color:red;"></span>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" name="cpass" />
+                  <input type="password" id="form3Example4cdg" class="form-control form-control-lg" name="cpass" required/>
                   <label class="form-label" for="form3Example4cdg">Confirm password</label>
                 </div>
                 

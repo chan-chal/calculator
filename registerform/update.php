@@ -39,6 +39,11 @@ $details=mysqli_fetch_assoc($data);
                 </div>
 
                 <div class="form-outline mb-4">
+                <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" />
+                  <label class="form-label" for="form3Example1cg">Profile Image</label>
+                </div>
+
+                <div class="form-outline mb-4">
                   <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" value="<?php echo $details['email'] ?>"/>
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                 </div>
@@ -101,9 +106,10 @@ $password=$_POST['pass'];
 $confirmpass=$_POST['cpass'];
 $sql="UPDATE register SET name='$name',email='$email',address='$address',phone='$phone',password='$password',confirmpassword='$confirmpass' WHERE id='$id'";
 $res=mysqli_query($conn,$sql);
-if($res)
+if($res == true)
                 {
-                    header('location:display.php');
+                  echo "data Updated successfully";
+                    header("location:display.php");
                 }
 else 
             {
