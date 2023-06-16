@@ -1,4 +1,12 @@
- <!doctype html>
+
+<?php
+session_start();
+include ('config.php');
+if(isset($_SESSION['logined'])){
+    header('location:display.php');
+}
+?>
+<!doctype html>
 <html lang="en">
   <head>
  
@@ -21,11 +29,11 @@
     <div class="row justify-content-center custom-margin">
         <div class="col-md-4 col-sm-6 col-lg-6">
 
-            <form action="login.php" method="POST" class="shadow-lg p-4">
+            <form action="login.php" method="POST"  class="shadow-lg p-4">
                 <div class="form-group">
                 <i class="fa-regular fa-user"></i>
                 <label for="email" class="font-weight-bold">Email</label>
-                <input type="email" name ="email" id ="email" class="form-control" placeholder="Email">   
+                <input type="email"  name ="email" id ="email" class="form-control" placeholder="Email">   
                 </div>
 
                 <div class="form-group">
@@ -35,6 +43,9 @@
                 </div>
               <button type="submit" name="submit" class="btn btn-success btn-lg btn-block shadow-sm">Login</button>
             </form>
+            <p class="text-center text-muted mt-5 mb-0">Don't Have Account Register? <a href="register-form.php"
+                    class="fw-bold text-body"><u>Register here</u></a></p>
+
         </div>
     </div>
 </div>

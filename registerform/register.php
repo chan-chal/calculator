@@ -1,10 +1,21 @@
 <?php
+session_start();
 include ('config.php');
 
+if(isset($_SESSION['logined'])){
+    header('location:display.php');
+}
 if(isset($_POST['submit']))
 {
 $name=$_POST['name'];
-$email=$_POST['email'];
+$email =$_POST["email"];
+
+$emailErr='';
+if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+  $emailErr = "Invalid email format";
+  echo header('location:register-form.php');
+}
+// $email=$_POST['email'];
 $address=$_POST['address'];
 $phone=$_POST['phone'];
 $password=$_POST['pass'];
@@ -30,6 +41,9 @@ else{
 }
 else
 {
-    echo "Please complete registration process!";
+    // echo "Please complete registration process!";
+   echo header('location:register-form.php');
+
+   
 }
 ?>

@@ -2,7 +2,9 @@
 <?php
 session_start();
 include ('config.php');
-
+if(isset($_SESSION['logined'])){
+    header('location:display.php');
+}
 if(isset($_POST['submit']))
 {
 $password=$_POST['password'];

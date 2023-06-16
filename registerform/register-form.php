@@ -1,4 +1,5 @@
 <!-- <!doctype html>
+
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -54,6 +55,13 @@
   </body>
 </html> -->
 
+<?php
+session_start();
+include ('config.php');
+if(isset($_SESSION['logined'])){
+    header('location:display.php');
+}
+?>
 <!doctype html>
 <html lang="en">
   <head>
@@ -79,13 +87,14 @@
               <form action="register.php" method="POST">
 
                 <div class="form-outline mb-4">
-                  <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" />
+                  <input type="text" id="form3Example1cg"class="form-control form-control-lg" name="name" />
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                 </div>
 
                 <div class="form-outline mb-4">
-                  <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" />
+                  <input type="text" id="form3Example3cg" class="form-control form-control-lg" name="email" />
                   <label class="form-label" for="form3Example3cg">Your Email</label>
+                  <span><?php if(isset($emailErr)){echo $emailErr;}?></span>
                 </div>
 
                 <div class="form-outline mb-4">
@@ -99,8 +108,9 @@
                 </div>
                 
                 <div class="form-outline mb-4">
-                  <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="pass" />
-                  <label class="form-label" for="form3Example4cg">Password</label>
+                  <input type="password" id="password" class="form-control form-control-lg" name="pass" value="" />
+                  <label class="form-label" for="form3Example4cg">Password</label> <br>
+                  <span id="password-error" style="color:red;"></span>
                 </div>
 
                 <div class="form-outline mb-4">
@@ -121,8 +131,8 @@
                     class="btn btn-success btn-block btn-lg gradient-custom-4 text-body">Register</button>
                 </div>
 
-                <!-- <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="#!"
-                    class="fw-bold text-body"><u>Login here</u></a></p> -->
+                <p class="text-center text-muted mt-5 mb-0">Have already an account? <a href="login-form.php"
+                    class="fw-bold text-body"><u>Login here</u></a></p>
 
               </form>
 
@@ -133,5 +143,25 @@
     </div>
   </div>
 </section>
+
+<script>
+  // function NameCheck(){
+  // console.log('namecheck function called');
+  // }
+  // function PasswordCheck(){
+  //   console.log('Password function called');
+  //     value=document.getElementById('password').value;
+  //     console.log(value);
+  //     if(value.length <6){
+  //       console.log('length of password must be greater than 6 character!');
+  //       document.getElementById('password-error').innerText="length of password must be greater than 6 character!";
+  //     }else{
+  //       document.getElementById('password-error').innerText="";
+
+  //     }
+  
+  // }
+</script>
+
 </body>
 </html>
