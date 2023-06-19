@@ -31,7 +31,7 @@ $details=mysqli_fetch_assoc($data);
             <div class="card-body p-5">
               <h2 class="text-uppercase text-center mb-5">Update your account</h2>
 
-              <form action="" method="POST">
+              <form action="" method="POST" enctype="multipart/form-data">
 
                 <div class="form-outline mb-4">
                   <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" value="<?php echo $details['name'] ?>"/>
@@ -40,7 +40,7 @@ $details=mysqli_fetch_assoc($data);
 
                 <div class="form-outline mb-4">
                 <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" />
-                  <label class="form-label" for="form3Example1cg">Profile Image</label>
+                  <label class="form-label" for="form3Example1cg" value="<?php echo $details['profile_image'] ?>" >Profile Image</label>
                 </div>
 
                 <div class="form-outline mb-4">
@@ -58,7 +58,7 @@ $details=mysqli_fetch_assoc($data);
                   <label class="form-label" for="form3Example4cdg">Phone Number</label>
                 </div>
                 
-                <div class="form-outline mb-4">
+                <!-- <div class="form-outline mb-4">
                   <input type="password" id="form3Example4cg" class="form-control form-control-lg" name="pass" value="<?php echo $details['password'] ?>"/>
                   <label class="form-label" for="form3Example4cg">Password</label>
                 </div>
@@ -66,7 +66,7 @@ $details=mysqli_fetch_assoc($data);
                 <div class="form-outline mb-4">
                   <input type="password" id="form3Example4cdg" class="form-control form-control-lg" name="cpass" value="<?php echo $details['confirmpassword'] ?>"/>
                   <label class="form-label" for="form3Example4cdg">Confirm password</label>
-                </div>
+                </div> -->
                 
 
                 <!-- <div class="form-check d-flex justify-content-center mb-5">
@@ -104,12 +104,22 @@ $address=$_POST['address'];
 $phone=$_POST['phone'];
 $password=$_POST['pass'];
 $confirmpass=$_POST['cpass'];
-$sql="UPDATE register SET name='$name',email='$email',address='$address',phone='$phone',password='$password',confirmpassword='$confirmpass' WHERE id='$id'";
+$image=$_FILES['uploadfile'];
+
+if(!empty($image)){
+  $names=$_FILES['uploadfile']['name'];
+  $tempname=$_FILES['uploadfile']['tmp_name'];
+  $folder="images/".$names;
+  move_uploaded_file($tempname,$folder);
+$sql="UPDATE register SET name='$name',profile_image='$folder',email='$email',address='$address',phone='$phone',password='$password',confirmpassword='$confirmpass' WHERE id='$id'";
 $res=mysqli_query($conn,$sql);
-if($res == true)
+if($res>0)
                 {
-                  echo "data Updated successfully";
-                    header("location:display.php");
+          
+                  echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Data and image Succesfully Updated');
+                  window.location.href='display.php';
+                  </script>");
                 }
 else 
             {
@@ -117,8 +127,23 @@ else
             }
     }
 }
+}
 else
 {
+    $sql="UPDATE register SET name='$name',profile_image='$image',email='$email',address='$address',phone='$phone',password='$password',confirmpassword='$confirmpass' WHERE id='$id'";
+    $res=mysqli_query($conn,$sql);
     header('location:login-form.php');
+    if($res>0)
+                {
+          
+                  echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Data Succesfully Updated');
+                  window.location.href='display.php';
+                  </script>");
+                }
+else 
+            {
+    echo "Unable to Update";
+            }
 }
 ?>
