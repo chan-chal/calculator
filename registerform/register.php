@@ -57,6 +57,7 @@
         
 //         }
 
+// FINALS
 session_start();
 include ('config.php');
 
@@ -82,6 +83,7 @@ if(isset($_POST['submit']))
 
         // echo $hashed_password ;
             // if(password_verify($confirmpass,$hashed_password))
+            
             if($password==$confirmpass)
             { 
                 // echo $password ;
@@ -118,24 +120,6 @@ if(isset($_POST['submit']))
             }       
 }  
 
+// FINALS
+
 ?>
-
-
-
-
-<!-- 
-$sql = "INSERT INTO 'register' (name,profile_image,email,address,phone,password) VALUES ('$name','$folder','$email','$address','$phone','$hashed_password')";
-                        echo $sql;   
-                        $result=mysqli_query($conn,$sql);
-                        if(!$result)
-                        {
-                        // echo "Registered Successfully";
-                        echo header('location:register-form.php');
-                        // echo header('location:login-form.php');
-                        }
-                        else
-                        {
-                        // echo "Please complete registration process!";
-                        // echo header('location:register-form.php');ssss
-                        echo header('location:login-form.php');
-                        } -->

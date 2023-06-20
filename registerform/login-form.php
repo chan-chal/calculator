@@ -3,7 +3,7 @@
 session_start();
 include ('config.php');
 if(isset($_SESSION['logined'])){
-    header('location:display.php');
+    header('location:display2.php');
 }
 ?>
 <!doctype html>

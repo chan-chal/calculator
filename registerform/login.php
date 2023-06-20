@@ -3,7 +3,7 @@
 session_start();
 include ('config.php');
 if(isset($_SESSION['logined'])){
-    header('location:display.php');
+    header('location:display2.php');
 }
 if(isset($_POST['submit']))
 {
@@ -16,8 +16,11 @@ $result = mysqli_query($conn,$sql);
  $res=mysqli_num_rows($result);
 if($res>0)
 {
-    $_SESSION['logined']=$password;
-    header('location:display.php');
+    $_SESSION['logined']=$email;
+    echo ("<script LANGUAGE='JavaScript'>
+    window.alert('Login Successfull');
+    window.location.href='display2.php';
+    </script>");
 
 }
 else{
