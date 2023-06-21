@@ -3,16 +3,11 @@
 session_start();
 if(isset($_SESSION['logined'])){
   include('config.php');
-  $sql="SELECT * FROM register";
-  $data=mysqli_query($conn,$sql);
+  $email = $_SESSION['logined'];
+  $sql1="SELECT * FROM `register` WHERE `email`='$email'";
+  $data=mysqli_query($conn,$sql1);
   $result=mysqli_num_rows($data);
-  $details=mysqli_fetch_assoc($data);
-  $id = $_SESSION['logined'];
-  if($result>0)
-  {
   ?>
-
-
 <!doctype html>
 <html lang="en">
   <head>
@@ -26,6 +21,29 @@ if(isset($_SESSION['logined'])){
     <title>Welcome</title>
   </head>
   <body>
+
+<!-- navbar -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">my weB</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item active">
+        <a class="nav-link" href="display2.php">Home</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">About</a>
+      </li>
+      <li>
+      <a class="nav-link" href="logout.php">Logout</a>
+      </li>
+  </div>
+</nav>
+
+
   <h1 style="text-align:center">Welcome</h1>
   <table class="table">
     <thead>
@@ -40,29 +58,21 @@ if(isset($_SESSION['logined'])){
       </tr>
     </thead>
 
-<?php
-
-    while($details=mysqli_fetch_assoc($data)){
-    echo "<tr>
-    <td>".$details['id']."</td>
-    <td><img src='".$details['profile_image']."'height='100px' width='100px'></td>
-    <td>".$details['name']."</td>
-    <td>".$details['email']."</td>
-    <td>".$details['address']."</td>
-    <td>".$details['phone']."</td>
+<!-- while loop to fetch data from database  -->
+<?php while($details=mysqli_fetch_array($data)) { ?>
+    <tr>
+    <td><?php echo $details['id'];?></td>
+    <td><img src='<?php echo $details['profile_image'];?>' height='100px' width='100px'></td>
+    <td><?php echo $details['name'];?></td>
+    <td><?php echo $details['email'];?></td>
+    <td><?php echo $details['address'];?></td>
+    <td><?php echo $details['phone'];?></td>
+    
     <td><button class='btn btn-success btn-lg shadow-sm'>
-    <a style='color:white;text-align:center;'href='update.php?id=$details[id]'>Update</a></button></td>
-    </tr>";
-    }
-  }
-  echo "<a href='logout.php'>Logout</a>";
-}
-else{
-  header('location:login-form.php');
-}
-?>
+    <a style='color:white;text-align:center;' href='update.php?id=<?php echo $details['id'] ?>'>Update</a></button></td>
+    </tr>
+<?php } }?>
+
   </table>
   </body>
   </html>
-
-

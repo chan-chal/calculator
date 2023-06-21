@@ -3,9 +3,64 @@
 session_start();
 include ('config.php');
 if(isset($_SESSION['logined'])){
-    header('location:display2.php');
+    header('location:display.php');
+}
+else{
+// Define variables to store form data and error messages
+$email = $password ='';
+$emailErr =$passwordErr= '';
+
+// Function to sanitize and validate input data
+    function sanitizeInput($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+    }
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+    // Validate email
+    if (empty($_POST['email'])) {
+    $emailErr = 'Email is required';
+    } else {
+    $email = sanitizeInput($_POST['email']);
+    // Check if email is valid
+    if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+      $emailErr = 'Invalid email format';
+    }
+    }
+
+    if (empty($_POST['password'])) {
+    $passwordErr = 'Password is required';
+    } else {
+    $password = sanitizeInput($_POST['password']);
+    // Perform password validation as per your requirements
+    // ...
+    }
+ 
+    if(empty($emailErr)&&empty($passwordErr)){
+
+    $sql="SELECT * FROM `register` WHERE `email`='$email' &&  `password`='$password'";
+
+    $result = mysqli_query($conn,$sql);
+    $res=mysqli_num_rows($result);
+    if($res>0)
+    {
+    $_SESSION['logined']=$email;
+    echo ("<script LANGUAGE='JavaScript'>
+    window.alert('Logined Successfully');
+    window.location.href='display.php';
+    </script>");
+
+    }
+    else{
+        $passwordErr= "please enter a valid email and password";
+    }
+  }
+}
 }
 ?>
+
 <!doctype html>
 <html lang="en">
   <head>
@@ -25,21 +80,23 @@ if(isset($_SESSION['logined'])){
     <title>Login Form</title>
   </head>
   <body>
-    <div class="container ">
+    <div class="container">
     <div class="row justify-content-center custom-margin">
         <div class="col-md-4 col-sm-6 col-lg-6">
 
-            <form action="login.php" method="POST"  class="shadow-lg p-4">
+            <form action="" method="POST" class="shadow-lg p-4">
                 <div class="form-group">
                 <i class="fa-regular fa-user"></i>
                 <label for="email" class="font-weight-bold">Email</label>
-                <input type="email"  name ="email" id ="email" class="form-control" placeholder="Email">   
+                <input type="email"  name ="email" id ="email" class="form-control" value="<?php echo $email; ?> " placeholder="Email">  
+                <span class="error"><?php echo $emailErr; ?></span> 
                 </div>
 
                 <div class="form-group">
                 <i class="fa-regular fa-key"></i>
                 <label for="password" class="font-weight-bold">Password</label>
-                <input type="password" name ="password" id ="password" class="form-control" placeholder="password">   
+                <input type="password" name ="password" id ="password" class="form-control" placeholder="password">
+                <span class="error"><?php echo $passwordErr; ?></span>   
                 </div>
               <button type="submit" name="submit" class="btn btn-success btn-lg btn-block shadow-sm">Login</button>
             </form>

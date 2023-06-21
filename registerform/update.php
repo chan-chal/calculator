@@ -1,3 +1,4 @@
+
 <?php
 session_start();
 if(isset($_SESSION['logined'])){
@@ -7,6 +8,120 @@ $sql="SELECT * FROM `register` where id='$id'";
 $data=mysqli_query($conn,$sql);
 $result=mysqli_num_rows($data);
 $details=mysqli_fetch_assoc($data);
+
+// Define variables to store form data and error messages
+$name = $phone = $email = $address = $password = $confirmPassword = '';
+$nameErr = $phoneErr = $fileErr= $emailErr = $addressErr = $passwordErr = $confirmPasswordErr = '';
+
+// Function to sanitize and validate input data
+function sanitizeInput($data) {
+  $data = trim($data);
+  $data = stripslashes($data);
+  $data = htmlspecialchars($data);
+  return $data;
+}
+ 
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+  // Validate name
+  if (empty($_POST['name'])) {
+    $nameErr = 'Name is required';
+  } else {
+    $name = sanitizeInput($_POST['name']);
+    // Check if name contains only letters and whitespace
+    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+      $nameErr = 'Only letters and whitespace allowed';
+    }
+  }
+
+  // Validate file upload
+  // if (empty($_FILES['uploadfile']['name'])) {
+  //   $fileErr = 'File upload is required';
+  // } else {
+    // Perform file upload validations as per your requirements
+    // ...
+  // }
+
+  // Validate phone
+  if (empty($_POST['phone'])) {
+    $phoneErr = 'Phone number is required';
+  } else {
+    $phone = sanitizeInput($_POST['phone']);
+      if(!preg_match('/^[0-9]{10}+$/', $phone)) {
+          $phoneErr="Mobile must have 10 digits";
+        }
+    }
+
+
+  // Validate email
+  if (empty($_POST['email'])) {
+    $emailErr = 'Email is required';
+  } else {
+    $email = sanitizeInput($_POST['email']);
+    // Check if email is valid
+    // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+
+      if(!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix",$email)){ 
+      $emailErr = 'Invalid email format';
+    }
+  }
+
+  // Validate address
+  if (empty($_POST['address'])) {
+    $addressErr = 'Address is required';
+  } else {
+    $address = sanitizeInput($_POST['address']);
+  }
+
+  if (empty($nameErr)&& empty($phoneErr) && empty($emailErr) && empty($addressErr)) {
+// $password=$_POST['pass'];
+// $confirmpass=$_POST['cpass'];
+$image=$_FILES['uploadfile'];
+if(!empty($_FILES['uploadfile']['name'])){
+  $names=$_FILES['uploadfile']['name'];
+  $tempname=$_FILES['uploadfile']['tmp_name'];
+  $folder="images/".$names;
+  // echo $folder;
+  move_uploaded_file($tempname,$folder);
+$sql="UPDATE register SET name='$name',profile_image='$folder',email='$email',address='$address',phone='$phone' WHERE id='$id'";
+$res=mysqli_query($conn,$sql);
+if($res>0)
+                {
+          
+                  echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Data and image Succesfully Updated');
+                  window.location.href='display.php';
+                  </script>");
+                }
+else 
+            {
+    echo "Unable to Update";
+            }
+    }
+
+
+else
+{
+    $sql="UPDATE register SET name='$name',email='$email',address='$address',phone='$phone'WHERE id='$id'";
+    $res=mysqli_query($conn,$sql);
+    header('location:login-form.php');
+    if($res>0)
+                {
+          
+                  echo ("<script LANGUAGE='JavaScript'>
+                  window.alert('Data Succesfully Updated');
+                  window.location.href='display.php';
+                  </script>");
+                }
+else 
+            {
+    echo "Unable to Update";
+            }
+}
+
+}
+
+}
 ?>
 
 <!doctype html>
@@ -16,7 +131,7 @@ $details=mysqli_fetch_assoc($data);
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <!-- <link rel="stylesheet" href="style.css"> -->
+    <link rel="stylesheet" href="style.css">
     <title>update Form</title>
   </head>
   <body>       
@@ -61,21 +176,25 @@ $details=mysqli_fetch_assoc($data);
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg" value="<?php echo $details['profile_image'] ?>" >Profile Image</label>
                 <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" />
+                <!-- -->
                 </div>
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example3cg">Your Email</label>
                   <input type="email" id="form3Example3cg" class="form-control form-control-lg" name="email" value="<?php echo $details['email'] ?>"/>
+                  <span class="error"><?php echo $emailErr; ?></span>
                 </div>
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example4cdg">Address</label>
-                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="address" value="<?php echo $details['address'] ?>"/>
+                  <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="address" value="<?php echo $details['address'] ?>" required maxlength=10/>
+                  <span class="error"><?php echo $addressErr; ?></span>
                 </div>
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example4cdg">Phone Number</label>
                   <input type="text" id="form3Example4cdg" class="form-control form-control-lg" name="phone" value="<?php echo $details['phone'] ?>"/>
+                  <span class="error"><?php echo $phoneErr; ?></span>
                 </div>
 
                 <div class="d-flex justify-content-center">
@@ -93,63 +212,8 @@ $details=mysqli_fetch_assoc($data);
     </div>
   </div>
 </section>
+<script src="JavaScript/jquery-1.6.1.min.js" type="text/javascript"></script>
 </body>
 </html>
 
-<?php
-
-if(isset($_POST['update']))
-{
-$name=$_POST['name'];
-$email=$_POST['email'];
-$address=$_POST['address'];
-$phone=$_POST['phone'];
-// $password=$_POST['pass'];
-// $confirmpass=$_POST['cpass'];
-$image=$_FILES['uploadfile'];
-if(!empty($_FILES['uploadfile']['name'])){
-  $names=$_FILES['uploadfile']['name'];
-  $tempname=$_FILES['uploadfile']['tmp_name'];
-  $folder="images/".$names;
-  // echo $folder;
-  move_uploaded_file($tempname,$folder);
-$sql="UPDATE register SET name='$name',profile_image='$folder',email='$email',address='$address',phone='$phone' WHERE id='$id'";
-$res=mysqli_query($conn,$sql);
-if($res>0)
-                {
-          
-                  echo ("<script LANGUAGE='JavaScript'>
-                  window.alert('Data and image Succesfully Updated');
-                  window.location.href='display2.php';
-                  </script>");
-                }
-else 
-            {
-    echo "Unable to Update";
-            }
-    }
-
-
-else
-{
-    $sql="UPDATE register SET name='$name',email='$email',address='$address',phone='$phone'WHERE id='$id'";
-    $res=mysqli_query($conn,$sql);
-    header('location:login-form.php');
-    if($res>0)
-                {
-          
-                  echo ("<script LANGUAGE='JavaScript'>
-                  window.alert('Data Succesfully Updated');
-                  window.location.href='display2.php';
-                  </script>");
-                }
-else 
-            {
-    echo "Unable to Update";
-            }
-}
-
-}
-
-}
-?>
+<?php }?>
