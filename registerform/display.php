@@ -3,8 +3,8 @@
 session_start();
 if(isset($_SESSION['logined'])){
   include('config.php');
-  $email = $_SESSION['logined'];
-  $sql1="SELECT * FROM `register` WHERE `email`='$email'";
+  $id = $_SESSION['logined'];
+  $sql1="SELECT * FROM `register` WHERE `id`='$id'";
   $data=mysqli_query($conn,$sql1);
   $result=mysqli_num_rows($data);
   ?>

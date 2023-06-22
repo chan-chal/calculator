@@ -81,7 +81,7 @@ if(!empty($_FILES['uploadfile']['name'])){
   $names=$_FILES['uploadfile']['name'];
   $tempname=$_FILES['uploadfile']['tmp_name'];
   $folder="images/".$names;
-  // echo $folder;
+
   move_uploaded_file($tempname,$folder);
 $sql="UPDATE register SET name='$name',profile_image='$folder',email='$email',address='$address',phone='$phone' WHERE id='$id'";
 $res=mysqli_query($conn,$sql);
@@ -132,6 +132,7 @@ else
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <title>update Form</title>
   </head>
   <body>       
@@ -168,6 +169,23 @@ else
 
               <form action="" method="POST" enctype="multipart/form-data">
 
+              <div class="form-outline text-center">
+                <img src="<?php echo $details['profile_image'] ?>" height="200px" width="170px" class="update-image" >
+                <!-- <label class="form-label" for="form3Example1cg" value="<?php echo $details['profile_image'] ?>" >Profile Image</label> -->
+                <div></div>
+                <input type="file" name="uploadfile"id="form3Example1cg" class="form-control form-control-lg ms-4" style="
+    width: 8%;
+    height: 1%;
+    border: 1px solid red;
+    display: inline-block;
+    visibility: hidden;
+" >
+                <!-- -->
+                <span style="position: relative;left: -40px;">
+                  <i class="fa-solid fa-camera fa-2x"></i>
+                </span>
+                </div>
+
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg">Your Name</label>
                   <input type="text" id="form3Example1cg" class="form-control form-control-lg" name="name" value="<?php echo $details['name'] ?>"/>
@@ -175,7 +193,8 @@ else
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg" value="<?php echo $details['profile_image'] ?>" >Profile Image</label>
-                <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" />
+                <input type="file" name="uploadfile"id="form3Example1cg" class="form-control form-control-lg" >
+                <img src="<?php echo $details['profile_image'] ?>" height="120px" width="120px" >
                 <!-- -->
                 </div>
 

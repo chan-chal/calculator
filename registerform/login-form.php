@@ -40,13 +40,22 @@ $emailErr =$passwordErr= '';
  
     if(empty($emailErr)&&empty($passwordErr)){
 
-    $sql="SELECT * FROM `register` WHERE `email`='$email' &&  `password`='$password'";
+    $sql="SELECT * FROM `register` WHERE `email`='$email' &&  `password`= md5('$password')";
 
     $result = mysqli_query($conn,$sql);
+    // print_r($result);
+    $session_id="";
+    foreach($result as $value){
+      // print_r($value['id']);
+      $session_id=$value['id'];
+      // die;
+    }
+    // die();
     $res=mysqli_num_rows($result);
+
     if($res>0)
     {
-    $_SESSION['logined']=$email;
+    $_SESSION['logined']=$session_id;
     echo ("<script LANGUAGE='JavaScript'>
     window.alert('Logined Successfully');
     window.location.href='display.php';

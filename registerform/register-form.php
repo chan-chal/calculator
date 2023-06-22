@@ -115,13 +115,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // mysqli_query($conn, $query);
     // ...
 
-        // move_uploaded_file($tempname,$folder);
-        // $email_sql = "SELECT * FROM `register` WHERE `email`='$email'"; 
-        // $run = mysqli_query($conn,$email_sql);
-        // $count = mysqli_num_rows($run);
-        $names=$_FILES['uploadfile']['name'];
-        $tempname=$_FILES['uploadfile']['tmp_name'];
-        $folder="images/".$names;
+    // $email_sql = "SELECT * FROM `register` WHERE `email`='$email'"; 
+    // $run = mysqli_query($conn,$email_sql);
+    // $count = mysqli_num_rows($run);
+    $names=$_FILES['uploadfile']['name'];
+    $tempname=$_FILES['uploadfile']['tmp_name'];
+    $folder="images/".$names;
+    move_uploaded_file($tempname,$folder);
         $sql_inst ="INSERT INTO `register` (`profile_image`,`name`,`email`,`address`,`phone`,`password`)VALUES ('$folder','$name','$email','$address','$phone',md5('$password'))";
         $run = mysqli_query($conn,$sql_inst);
 
@@ -177,7 +177,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example1cg">Profile Image</label>
-                <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" value="<?php echo $_FILES['uploadfile']['name']; ?>" required/>
+                <input type="file" name="uploadfile"id="form3Example1cg"class="form-control form-control-lg" value="" required/>
                 <span class="error"><?php echo $fileErr; ?></span>  
               </div>
 
