@@ -1,3 +1,17 @@
+  <!doctype html>
+    <html lang="en">
+      <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css" integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <title>Registeration Form</title>
+  </head>
+  <body>
+
 <?php
 session_start();
 if(isset($_SESSION['logined'])){
@@ -117,10 +131,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         if(!$run)
         {
         ?>
-            <head>
+            <!-- <head>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
             </head>
-            <body>
+            <body> -->
                 
             <?php
             echo "<script>";
@@ -138,17 +152,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               echo "</script>";
             ?>
-            </body>
+            <!-- </body> -->
             <?php
             // header('location:register-form.php');
         
         }
         else{
             ?>
-            <head>
+            <!-- <head>
             <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
             </head>
-            <body>
+            <body> -->
                 
             <?php
             echo "<script>";
@@ -166,7 +180,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               echo "</script>";
             ?>
-            </body>
+            <!-- </body> -->
 
             <?php
         }
@@ -179,7 +193,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
 
 
-<!doctype html>
+<!-- <!doctype html>
 <html lang="en">
   <head>
     <meta charset="utf-8">
@@ -191,7 +205,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <title>Registeration Form</title>
   </head>
-  <body>       
+  <body>        -->
 <section class="vh-100 bg-image">
   <div class="mask d-flex align-items-center h-100 gradient-custom-3">
     <div class="container h-100">

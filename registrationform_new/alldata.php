@@ -70,7 +70,7 @@ if(isset($_SESSION['logined'])){
     <td><button class="btn btn-success btn-lg">
     <a style=color:white; href='update.php?id=<?php echo $details['id'] ?>'>Edit</a></button>
     <button name="delete" class="btn btn-danger btn-lg">
-    <a style=color:white; data-toggle="modal" data-target="#exampleModalLongg" href='delete.php?id=<?php echo $details['id'] ?>'>Delete</a></button></td>
+    <a style=color:white; data-toggle="modal" data-target="#exampleModalLongg" onclick="getDeleteElementId(<?php echo $details['id'] ?>);" href='#'>Delete</a></button></td>
     </tr>
 
   <?php } }?>
@@ -115,12 +115,22 @@ if(isset($_SESSION['logined'])){
       <div class="modal-footer">
       <!-- <form action="delete.php" method="POST"> -->
         <button type="button" class="btn btn-success text-white" data-dismiss="modal" ><a href="alldata.php"class="modal-button">No</a></button>
-        <button type="button" class="btn btn-danger text-white" ><a class="modal-button" name="yes" href='delete.php?id=<?php  echo $details['id']; ?>'>Yes</a></button>
+        <form action="delete.php" method="POST">
+          <input type="hidden" name="yes" value="" id="delete-btn">
+          <button type="submit" class="btn btn-success text-white" >Yes</button>
+        </form>
         <!-- </form> -->
       </div>
     </div>
   </div>
 </div>
+
+<script>
+  function getDeleteElementId(id){
+    document.getElementById('delete-btn').setAttribute ('value',id);
+    // console.log(document.getElementById('delete-btn'));  
+  }
+</script>
 
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct" crossorigin="anonymous"></script>
