@@ -43,7 +43,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $nameErr = 'Only letters and whitespace allowed';
     }
   }
-
+  $added_session_id=$_SESSION['logined'];
+  // echo  $added_session_id;
+  // die;
   // Validate file upload
   // if (empty($_FILES['uploadfile']['name'])) {
   //   $fileErr = 'File upload is required';
@@ -124,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $tempname=$_FILES['uploadfile']['tmp_name'];
     $folder="images/".$names;
     move_uploaded_file($tempname,$folder);
-        $sql_inst ="INSERT INTO `register` (`profile_image`,`name`,`email`,`address`,`phone`,`password`)VALUES ('$names','$name','$email','$address','$phone',md5('$password'))";
+        $sql_inst ="INSERT INTO `register` (`profile_image`,`name`,`email`,`address`,`phone`,`password`,`added_user_id`)VALUES ('$names','$name','$email','$address','$phone',md5('$password'),'$added_session_id')";
         $run = mysqli_query($conn,$sql_inst);
 
         if(!$run)
@@ -209,12 +211,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                   <span class="error"><?php echo $addressErr; ?></span>
                 </div>
 
+                <input type="hidden" name ="new" value = "<?php echo $_SESSION['logined'] ?>"></input>
+                
                 <div class="form-outline mb-4">
                   <label class="form-label" for="form3Example4cdg">Phone Number</label>
                   <input type="text" id="form3Example4cdg" class="form-control form-control-lg" value="<?php echo $phone; ?>" name="phone" required maxlength=10/>
                   <span class="error"><?php echo $phoneErr; ?></span>
                 </div>
-                         
+
                 <label for="exampleInputEmail1">Password</label>
                 <div class="input-group">
                   <input type="password" class="form-control" name="pass" id="myInput" value="<?php echo $password; ?>" required >

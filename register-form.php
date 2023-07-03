@@ -116,11 +116,25 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $email_sql = "SELECT * FROM `register` WHERE `email`='$email'"; 
       $run = mysqli_query($conn,$email_sql);
       $count = mysqli_num_rows($run);
-
+      $status=mysqli_fetch_assoc($run);
+      $stat= $status['status'];
+      // die;
       if($count>0)
       {
-      $emailErr="Email already exists";
-      echo "<a href='reactiveaccount.php' target='_blank'>Click here to recover account</a>";
+        // echo $stat;
+        if($stat==0){
+  // die;
+  echo $stat;
+      $emailErr="Email already exists please try another email";
+      // echo "<a href='reactiveaccount.php' target='_blank'>Click here to recover account</a>";
+        }
+        else{
+          $emailErr = "Email already exists" . " <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a>";
+// echo $emailErr;
+      // $emailErr="Email already exists"." <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a></p>".;
+      // echo "<p>".$emailErr." <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a></p>";
+         
+        }
       }
       else
       {

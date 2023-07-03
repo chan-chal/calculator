@@ -1,6 +1,6 @@
 <?php
 session_start();
-if(isset($_SESSION['logined'])){
+// if(isset($_SESSION['logined'])){
   include('config.php');
   $id = $_SESSION['logined'];
   $sql1="SELECT * FROM `register` where `status`='0' && `id`!= $id ";
@@ -132,7 +132,7 @@ if(isset($_SESSION['logined'])){
         // console.log(document.getElementById('delete-btn'));  
     }
     </script>                
-<?php } ?>
+
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.js"> </script> -->
     <!-- <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"> </script> -->
     <!-- <script src="https://cdn.datatables.net/1.13.4/js/dataTables.bootstrap4.min.js"> </script> -->
