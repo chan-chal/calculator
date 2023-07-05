@@ -1,3 +1,19 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+        integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+    <title>Web page</title>
+</head>
+<body>
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <a class="navbar-brand" href="#">My Web</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -8,89 +24,21 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="display.php">Profile</a>
+                <a class="nav-link" href="profile_page.php">Profile</a>
             </li>
             <li class="nav-item active">
-                <a class="nav-link" href="alldata.php">Home</a>
+                <a class="nav-link" href="home_page.php">Home</a>
             </li>
+            <!-- <li class="nav-item active">
+                <a class="nav-link" href="home_page.php">Team</a>
+            </li> -->
             <li class="nav-item active">
                 <a class="nav-link " href="addnewuser.php">Add New User</a>
             </li>
             <li class="nav-item active">
                 <a class="nav-link " id="myButton" data-toggle="modal" data-target="mymodal" href="">Logout</a>
-            </li>
-            <!-- <button type="button" class="btn btn-primary" id="myButton">Open Modal</button> -->
-            
+            </li>           
     </div>
 </nav>
 
-    <!-- Logout modal -->
-    <!-- <div class="modal fade" id="#exampleModalLong" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle"
-        aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLongTitle">Are you sure?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    Do you really want to logout?
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-success text-white" data-dismiss="modal"><a href="display.php"
-                            class="modal-button">No</a></button>
-                    <button type="button" class="btn btn-danger text-white"><a class="modal-button"
-                            href="logout.php">Yes</a></button>
-                </div>
-            </div>
-        </div>
-    </div> -->
 
-
-<!-- Button trigger modal -->
-
-
-  <!-- Modal -->
-  <div class="modal" id="myModal">
-    <div class="modal-dialog">
-      <div class="modal-content">
-      
-        <!-- Modal header -->
-        <div class="modal-header">
-          <h5 class="modal-title">Are you sure?</h5>
-          <button type="button" class="close" data-dismiss="modal">&times;</button>
-        </div>
-        
-        <!-- Modal body -->
-        <div class="modal-body">
-          <p>Do you really want to logout?</p>
-        </div>
-        
-        <!-- Modal footer -->
-        <div class="modal-footer">
-        <button type="button"  class="btn btn-success"  data-dismiss="modal">No</button>
-
-        <div>
-    <button  onclick="redirectToPage()" type="button"  class="btn btn-danger"  data-dismiss="modal">Yes</button>
-        </div>
-        </div>
-        
-      </div>
-    </div>
-  </div>
-
-  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
-  <script>
-    // JavaScript to show the modal when the button is clicked
-    document.getElementById('myButton').addEventListener('click', function() {
-      $('#myModal').modal('show');
-    });
-  </script>
-
-<script>
-function redirectToPage() {
-  window.location.href = "logout.php";
-}
-</script>

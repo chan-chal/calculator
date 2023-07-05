@@ -20,7 +20,7 @@
     <?php
 session_start();
 if(isset($_SESSION['logined'])){
-  header('location:alldata.php');
+  header('location:home_page.php');
 }
 
 include ('config.php');
@@ -54,8 +54,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   if (empty($_FILES['uploadfile']['name'])) {
     $fileErr = 'File upload is required';
   } else {
-    // Perform file upload validations as per your requirements
-    // ...
+$allowedExtensions = ['jpeg', 'jpg', 'avif', 'png'];
+$uploadedFile = $_FILES['uploadfile']['name']; // Assuming you are using a file upload form
+$fileExtension = strtolower(pathinfo($uploadedFile, PATHINFO_EXTENSION));
+
+if (!in_array($fileExtension, $allowedExtensions)) {
+    // File extension is not allowed
+    $fileErr =  "Invalid file type. Only JPEG, AVIF, and PNG images are allowed.";
+    // You can choose to exit the script or take other appropriate action
+}
   }
 
   // Validate phone
@@ -118,22 +125,15 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       $count = mysqli_num_rows($run);
       $status=mysqli_fetch_assoc($run);
       $stat= $status['status'];
+      // echo $stat;
       // die;
       if($count>0)
       {
-        // echo $stat;
         if($stat==0){
-  // die;
-  echo $stat;
       $emailErr="Email already exists please try another email";
-      // echo "<a href='reactiveaccount.php' target='_blank'>Click here to recover account</a>";
         }
         else{
-          $emailErr = "Email already exists" . " <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a>";
-// echo $emailErr;
-      // $emailErr="Email already exists"." <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a></p>".;
-      // echo "<p>".$emailErr." <a href='reactiveaccount.php' target='_blank'>Click here to recover account</a></p>";
-         
+          $emailErr = "Email already exists" . " <a href='reactivate_account.php' target='_blank'>Click here to recover account</a>";
         }
       }
       else
@@ -154,8 +154,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             // <!-- <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script> -->
             // <!-- </head> -->
             // <!-- <body> -->
-                
-
             echo "<script>";
             echo " Swal.fire({
                 icon: 'success',
@@ -192,12 +190,12 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
               echo "</script>";
         }
-  }
-}
+    }
+    }
 
-  }
-}
-?>
+    }
+    }
+    ?>
 
 
 
@@ -296,7 +294,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                                     </div>
 
                                     <p class="text-center text-muted mt-5 mb-0">Have already an account? <a
-                                            href="login-form.php" class="fw-bold text-body"><u>Login here</u></a></p>
+                                            href="login-form.php">Login here</a></p>
 
                                 </form>
                             </div>

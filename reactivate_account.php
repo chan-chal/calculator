@@ -2,11 +2,8 @@
 <html lang="en">
 
 <head>
-
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
         integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
@@ -14,14 +11,13 @@
         crossorigin="anonymous" referrerpolicy="no-referrer" />
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
     <link rel="stylesheet" href="style.css">
-    <title>Login Form</title>
+    <title>Recover Account</title>
 </head>
 
 <body>
-
-
     <?php
-session_start();
+    // error_reporting(0);
+// session_start();
 include ('config.php');
 if(isset($_SESSION['logined'])){
     header('location:home_page.php');
@@ -61,52 +57,50 @@ $emailErr =$passwordErr= '';
  
     if(empty($emailErr)&&empty($passwordErr)){
 
-    $sql="SELECT * FROM `register` WHERE `email`='$email' &&  `password`= md5('$password') && `status`='0'";
+    $sql="SELECT * FROM `register` WHERE `email`='$email' &&  `password`= md5('$password') && `status`='1'";
 
     $result = mysqli_query($conn,$sql);
-    // print_r($result);
-    $session_id="";
-    foreach($result as $value){
-      // print_r($value['id']);
-      $session_id=$value['id'];
-    }
     $res=mysqli_num_rows($result);
     if($res>0)
     {
-    $_SESSION['logined']=$session_id;
+    $recover_account= "UPDATE `register` SET `status`= '0' WHERE `email`='$email'"; 
+    $recover_account_query = mysqli_query($conn,$recover_account);
+    if($recover_account_query){
     echo "<script>";
     echo " Swal.fire({
         icon: 'success',
-        title: 'Success',
-        text: 'Login successful!',
+        title: 'Success',  
+        text: 'Recovered successfully!',
         showConfirmButton: false,
         timer: 2500
       }).then(() => {
-        window.location.href = 'profile_page.php';
+        window.location.href = 'login-form.php';
       })";
-
       echo "</script>";
-
-    }
-    else{
-        // $passwordErr= "please enter a valid email and password";
+    } 
+    else {
         echo "<script>";
         echo " Swal.fire({
             icon: 'error',
-            title: 'Login',
-            text: 'Login Failed!',
+            title: 'Error',
+            text: 'Unable to recover!',
             showConfirmButton: false,
             timer: 2500
-          }).then(() => {
-            window.location.href = 'login-form.php';
-          })";
-          echo "</script>";
+            }).then(() => {
+            window.location.href = 'reactivate_account.php';
+            })";
+            echo "</script>";
     }
-  }
-}
-}
+    }
+    else 
+    {
+        $passwordErr="Wrong email and password";
+    }
+    }
+    }
+    }
+// }
 ?>
-
     <div class="container">
         <div class="row justify-content-center custom-margin">
             <div class="col-md-4 col-sm-6 col-lg-6">
@@ -138,8 +132,8 @@ $emailErr =$passwordErr= '';
                         class="btn btn-success btn-lg btn-block shadow-sm">Login</button>
                 </form>
 
-                <p class="text-center text-muted mt-5 mb-0">Don't Have Account? <a href="register-form.php"
-                      >Register here</a></p>
+                <p class="text-center text-muted mt-5 mb-0">Don't Have Account? <a href="register-form.php">Register
+                        here</a></p>
 
             </div>
         </div>
@@ -154,7 +148,6 @@ $emailErr =$passwordErr= '';
 </body>
 
 </html>
-
 
 <script>
 function myFunction() {
