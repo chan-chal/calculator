@@ -107,26 +107,27 @@ $emailErr =$passwordErr= '';
 }
 ?>
 
-    <div class="container">
+    <div class="container-fluid p-5">
         <div class="row justify-content-center custom-margin">
-            <div class="col-md-4 col-sm-6 col-lg-6">
 
-                <form action="" method="POST" class="shadow-lg p-4">
+            <div class="col-6">
+
+                <form action="" method="POST" class="m-5 pl-5">
                     <div class="form-group">
                         <i class="fa-regular fa-user"></i>
-                        <label for="email" class="font-weight-bold">Email</label>
-                        <input type="email" name="email" id="email" class="form-control" value="<?php echo $email; ?> "
+                        <label for="email" class="font-weight-bold" style="font-size:1.2rem;">Email</label>
+                        <input type="email" name="email" id="email" class="form-control mb-4" style="width:75%;" value="<?php echo $email; ?> "
                             placeholder="Email" required>
                         <span class="error"><?php echo $emailErr; ?></span>
                     </div>
 
                     <i class="fa-regular fa-key"></i>
-                    <label class="font-weight-bold">Password</label>
-                    <div class="input-group">
-                        <input type="password" class="form-control" name="password" id="myInput" placeholder="password"
+                    <label class="font-weight-bold " style="font-size:1.2rem;">Password</label>
+                    <div class="input-group mb-4">
+                        <input type="password" class="" style="width:75%;" name="password" id="myInput" placeholder="password"
                             value="<?php echo $password ;?>" required maxlength="32">
                         <div class="input-group-append">
-                            <button class="btn btn-secondary" type="button" onclick="myFunction()"><i class="fa fa-eye"
+                            <button class="btn btn-secondary" style="margin-left:-43px"type="button" onclick="myFunction()"><i class="fa fa-eye"
                                     aria-hidden="true"></i></button>
                         </div>
                     </div>
@@ -135,12 +136,13 @@ $emailErr =$passwordErr= '';
                     </div>
                     <br>
                     <button type="submit" name="submit"
-                        class="btn btn-success btn-lg btn-block shadow-sm">Login</button>
+                        class="btn btn-primary btn-lg btn-block shadow-sm" style="width:75%;">Login</button>
                 </form>
 
-                <p class="text-center text-muted mt-5 mb-0">Don't Have Account? <a href="register-form.php"
-                      >Register here</a></p>
-
+                <p class="text-center text-muted mt-5 mb-0" style="font-size:1.2rem;">Don't Have Account? <a href="register-form.php">Register here</a></p>
+            </div>
+            <div class="col-6">
+                <img src="https://i.imgur.com/uNGdWHi.png" class="img-fluid" style="height:500px;" alt="">
             </div>
         </div>
     </div>

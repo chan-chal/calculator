@@ -1,6 +1,6 @@
 <?php
-session_start();
-if(isset($_SESSION['logined'])){
+// session_start();
+// if(isset($_SESSION['logined'])){
   include('config.php');
   include('header.php');
   $id = $_SESSION['logined'];
@@ -8,7 +8,6 @@ if(isset($_SESSION['logined'])){
   $data=mysqli_query($conn,$sql1);
   $result=mysqli_num_rows($data);
   ?>
-<?php ?>
 <div class="container-fluid text-center">
 
   <h1 style="text-align:center">Welcome</h1>
@@ -49,5 +48,5 @@ if(isset($_SESSION['logined'])){
   <?php
   include('footer.php');
    } 
-  }
+  // }
   ?>

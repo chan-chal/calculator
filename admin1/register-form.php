@@ -212,14 +212,26 @@ if (!in_array($fileExtension, $allowedExtensions)) {
     <title>Registeration Form</title>
   </head>
   <body>        -->
-    <section class="vh-100 bg-image">
-        <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-            <div class="container h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                        <div class="card formmargin" style="border-radius: 15px;">
-                            <div class="card-body p-5">
-                                <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+    <style>
+      .contact-img{
+         height: 75% !important;
+      }
+      .contact-img-parent{
+        visibility: hidden;
+      }
+    </style>
+
+
+    <section class=" bg-image">
+        <div class="">
+            <div class=" ">
+                <div class="">
+                    <div class="">
+                        <!-- <div class="card formmargin" style="border-radius: 15px;"> -->
+                            <div class="">
+                              <div class="row pt-2 mx-5 px-5">
+                                <div class="col-6 p-5">
+                                <h2 class="text-uppercase text-center mb-3">Create an account</h2>
 
                                 <form action="" method="POST" enctype="multipart/form-data">
 
@@ -290,13 +302,21 @@ if (!in_array($fileExtension, $allowedExtensions)) {
 
                                     <div class="d-flex justify-content-center">
                                         <button type="submit" name="submit"
-                                            class="btn btn-success btn-block btn-lg">Register</button>
+                                            class="btn btn-primary btn-block btn-lg">Register</button>
                                     </div>
 
                                     <p class="text-center text-muted mt-5 mb-0">Have already an account? <a
                                             href="login-form.php">Login here</a></p>
 
                                 </form>
+                                </div>
+                                <div class="col-6 p-5">
+                                <h2 class="text-uppercase text-center mb-3 contact-img-parent">Create an account</h2>
+                                  <img src="contact-img.svg" alt="" class="img-fluid contact-img mt-4">
+                                <h2 class="text-uppercase text-center mb-3">REGISTER HERE !</h2>
+
+                                </div>
+                              </div>
                             </div>
                         </div>
                     </div>
