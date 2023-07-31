@@ -1,7 +1,5 @@
-         <?php
+    <?php
     session_start();
-    use PHPMailer\PHPMailer\PHPMailer;
-    use PHPMailer\PHPMailer\Exception;
     if(isset($_SESSION['logined'])){
         include ('include/header.php');
         include ('include/sidebar.php');
@@ -17,7 +15,6 @@
     $data = htmlspecialchars($data);
     return $data;
     }
-
     // Form submission and validation
     if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if(empty($_POST['select_box'])){
@@ -39,8 +36,7 @@
     }
     }
     $added_session_id=$_SESSION['logined'];
-    // echo  $added_session_id;
-    // die;
+
     // Validate file upload
     if (empty($_FILES['uploadfile']['name'])) {
     $fileErr = 'File upload is required';
@@ -97,6 +93,7 @@
     $passwordErr='Password should be at least 8 characters in length and should include at least one upper case letter, one number, and one special character.';
     }
     }
+
     // Validate confirm password
     if (empty($_POST['cpass'])) {
     $confirmPasswordErr = 'Confirm password is required';
@@ -136,231 +133,154 @@
 
     if(!$run)
     {
-    // echo "<script>";
-    // echo "Swal.fire('Success', 'Registration successful!', 'success');";
-    // echo "</script>";
-    // echo "Helo";
-    // header('location:register-form.php');
-
-    echo "<script>";
-    echo " Swal.fire({
-    icon: 'error',
-    title: 'Error',
-    text: 'Unable to add!',
-    showConfirmButton: false,
-    timer: 2500
-    }).then(() => {
-    window.location.href = 'addnewuser.php';
-    })";
-
-    echo "</script>";
+        $title='Error';
+        $text='Unable to add!';
+        $redirection='addnewuser.php';
+        include('failed-swal.php');
     }
     else{
-        require 'PHPMailer/src/Exception.php';
-        require 'PHPMailer/src/PHPMailer.php';
-        require 'PHPMailer/src/SMTP.php';
-        //Create an instance; passing `true` enables exceptions
-        $mail = new PHPMailer(true);
-        
-        try {
-            //Server settings
-            // $mail->SMTPDebug = SMTP::DEBUG_SERVER;                      //Enable verbose debug output
-            $mail->isSMTP();                                            //Send using SMTP
-            $mail->Host       = 'smtp.gmail.com';                     //Set the SMTP server to send through
-            $mail->SMTPAuth   = true;                                   //Enable SMTP authentication
-            $mail->Username   = 'chanchalkodion@gmail.com';                     //SMTP username
-            $mail->Password   = 'klgyhtbmqdqkkbam';                               //SMTP password
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_SMTPS;            //Enable implicit TLS encryption
-            $mail->Port       = 465;                                    //TCP port to connect to; use 587 if you have set `SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS`
-        
-            //Recipients
-            $mail->setFrom('chanchalkodion@gmail.com', 'Welcome');
-            $mail->addAddress($email,$name);     //Add a recipient
-        
-            //Attachments
-            // $mail->addAttachment('/var/tmp/file.tar.gz');         //Add attachments
-            // $mail->addAttachment('/tmp/image.jpg', 'new.jpg');    //Optional name
-        
-            //Content
-            $mail->isHTML(true);                                  //Set email format to HTML
-            // $mail->Subject = 'Welcome';
-            $mail->Body    = 'Welcome to Skylash.Manage your users fasters!';
-            // $mail->AltBody = 'This is the body in plain text for non-HTML mail clients';
-        
-            $mail->send();
-            echo 'Message has been sent';
-        } catch (Exception $e) {
-            echo "Message could not be sent. Mailer Error: {$mail->ErrorInfo}";
-        }
-    echo "<script>";
-    echo " Swal.fire({
-    icon: 'success',
-    title: 'Success',
-    text: 'Added successfully!',
-    showConfirmButton: false,
-    timer: 2500
-    }).then(() => {
-    window.location.href = 'all_user_page.php';
-    })";
-    echo "</script>";
+        // mail
+        $body='Dear '.$name.' welcome to Skylash.Manage your users fasters!';
+        $subject='Welcome';
+        include('php-mailer.php');
+
+        // swal
+        $title='Success';
+        $text='Added successfully!';
+        $redirection='all_user_page.php';
+        include('success-swal.php');
             }
         }
     }
-
         }
     }
     ?>
 
-         <!-- partial -->
-         <div class="main-panel">
-             <div class="content-wrapper">
+    <!-- partial -->
+    <div class="main-panel">
+        <div class="content-wrapper">
 
 
-                 <div class="container">
-                     <section class="bg-image">
-                         <div class="mask d-flex align-items-center h-100 gradient-custom-3">
-                             <div class="container h-100">
-                                 <div class="row d-flex justify-content-center align-items-center h-100">
-                                     <div class="col-12 col-md-9 col-lg-7 col-xl-6">
-                                         <div class="card formmargin" style="border-radius: 15px;">
-                                             <div class="card-body p-5">
-                                                 <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+            <div class="container">
+                <section class="bg-image">
+                    <div class="mask d-flex align-items-center h-100 gradient-custom-3">
+                        <div class="container h-100">
+                            <div class="row d-flex justify-content-center align-items-center h-100">
+                                <div class="col-12 col-md-9 col-lg-7 col-xl-6">
+                                    <div class="card formmargin" style="border-radius: 15px;">
+                                        <div class="card-body p-5">
+                                            <h2 class="text-uppercase text-center mb-5">Create an account</h2>
+                                            <form action="" method="POST" enctype="multipart/form-data">
 
-                                                 <form action="" method="POST" enctype="multipart/form-data">
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label" for="form3Example1cg">Your
+                                                        Name</label>
+                                                    <input type="text" id="form3Example1cg"
+                                                        class="form-control form-control-lg"
+                                                        value="<?php echo $name; ?>" name="name" required />
+                                                    <span class="error"><?php echo $nameErr; ?></span>
+                                                </div>
 
-                                                     <div class="form-outline mb-4">
-                                                         <label class="form-label" for="form3Example1cg">Your
-                                                             Name</label>
-                                                         <input type="text" id="form3Example1cg"
-                                                             class="form-control form-control-lg"
-                                                             value="<?php echo $name; ?>" name="name" required />
-                                                         <span class="error"><?php echo $nameErr; ?></span>
-                                                     </div>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label" for="form3Example1cg">Profile
+                                                        Image</label>
+                                                    <input type="file" name="uploadfile" id="form3Example1cg"
+                                                        class="form-control form-control-lg" value="" required />
+                                                    <span class="error"><?php echo $fileErr; ?></span>
+                                                </div>
 
-                                                     <div class="form-outline mb-4">
-                                                         <label class="form-label" for="form3Example1cg">Profile
-                                                             Image</label>
-                                                         <input type="file" name="uploadfile" id="form3Example1cg"
-                                                             class="form-control form-control-lg" value="" required />
-                                                         <span class="error"><?php echo $fileErr; ?></span>
-                                                     </div>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label" for="form3Example3cg">Your
+                                                        Email</label>
+                                                    <input type="text" id="form3Example3cg"
+                                                        class="form-control form-control-lg"
+                                                        value="<?php echo $email; ?>" name="email" required />
+                                                    <span class="error"><?php echo $emailErr; ?></span>
+                                                </div>
 
-                                                     <div class="form-outline mb-4">
-                                                         <label class="form-label" for="form3Example3cg">Your
-                                                             Email</label>
-                                                         <input type="text" id="form3Example3cg"
-                                                             class="form-control form-control-lg"
-                                                             value="<?php echo $email; ?>" name="email" required />
-                                                         <span class="error"><?php echo $emailErr; ?></span>
-                                                     </div>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label" for="form3Example4cdg">Address</label>
+                                                    <input type="text" id="form3Example4cdg"
+                                                        class="form-control form-control-lg"
+                                                        value="<?php echo $address; ?>" name="address" required />
+                                                    <span class="error"><?php echo $addressErr; ?></span>
+                                                </div>
 
-                                                     <div class="form-outline mb-4">
-                                                         <label class="form-label"
-                                                             for="form3Example4cdg">Address</label>
-                                                         <input type="text" id="form3Example4cdg"
-                                                             class="form-control form-control-lg"
-                                                             value="<?php echo $address; ?>" name="address" required />
-                                                         <span class="error"><?php echo $addressErr; ?></span>
-                                                     </div>
+                                                <input type="hidden" name="new"
+                                                    value="<?php echo $_SESSION['logined'] ?>"></input>
 
-                                                     <input type="hidden" name="new"
-                                                         value="<?php echo $_SESSION['logined'] ?>"></input>
+                                                <div class="form-outline mb-4">
+                                                    <label class="form-label" for="form3Example4cdg">Phone
+                                                        Number</label>
+                                                    <input type="text" id="form3Example4cdg"
+                                                        class="form-control form-control-lg"
+                                                        value="<?php echo $phone; ?>" name="phone" required
+                                                        maxlength=10 />
+                                                    <span class="error"><?php echo $phoneErr; ?></span>
+                                                </div>
+                                                <br>
 
-                                                     <div class="form-outline mb-4">
-                                                         <label class="form-label" for="form3Example4cdg">Phone
-                                                             Number</label>
-                                                         <input type="text" id="form3Example4cdg"
-                                                             class="form-control form-control-lg"
-                                                             value="<?php echo $phone; ?>" name="phone" required
-                                                             maxlength=10 />
-                                                         <span class="error"><?php echo $phoneErr; ?></span>
-                                                     </div>
-                                                     <br>
+                                                <select name="select_box" style="width:428px; height:46px;">
+                                                    <option selected disabled>Select Role</option>
+                                                    <option value="Manager">Manager</option>
+                                                    <option value="Chef">Chef</option>
+                                                    <option value="Worker">Helper</option>
+                                                </select>
+                                                <div class="row">
+                                                    <span class="error"><?php echo $selectErr; ?></span>
+                                                </div>
+                                                <br>
 
-                                                     <select name="select_box" style="width:428px; height:46px;">
-                                                         <option selected disabled>Select Role</option>
-                                                         <option value="Manager">Manager</option>
-                                                         <option value="Chef">Chef</option>
-                                                         <option value="Worker">Helper</option>
-                                                     </select>
-                                                     <div class="row">
-                                                         <span class="error"><?php echo $selectErr; ?></span>
-                                                     </div>
-                                                     <br>
+                                                <label for="exampleInputEmail1">Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" name="pass" id="myInput6"
+                                                        value="<?php echo $password; ?>" required>
+                                                    <div class="input-group-append">
+                                                        <button class="btn btn-secondary" type="button" 
+                                                            onclick="togglePasswordVisibility('myInput6')"><i
+                                                                class="fa fa-eye" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <span class="error"><?php echo $passwordErr; ?></span>
+                                                </div>
+                                                <br>
 
-                                                     <label for="exampleInputEmail1">Password</label>
-                                                     <div class="input-group">
-                                                         <input type="password" class="form-control" name="pass"
-                                                             id="myInput" value="<?php echo $password; ?>" required>
-                                                         <div class="input-group-append">
-                                                             <button class="btn btn-secondary" type="button"
-                                                                 onclick="myFunction()"><i class="fa fa-eye"
-                                                                     aria-hidden="true"></i></button>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <span class="error"><?php echo $passwordErr; ?></span>
-                                                     </div>
-                                                     <br>
+                                                <label for="exampleInputEmail1">Confirm Password</label>
+                                                <div class="input-group">
+                                                    <input type="password" class="form-control" name="cpass"
+                                                        id="myInput7" name="cpass"
+                                                        value="<?php echo $confirmPassword; ?>" required maxlength="32">
+                                                    <div class="input-group-append">
 
-                                                     <label for="exampleInputEmail1">Confirm Password</label>
-                                                     <div class="input-group">
-                                                         <input type="password" class="form-control" name="cpass"
-                                                             id="myInput1" name="cpass"
-                                                             value="<?php echo $confirmPassword; ?>" required
-                                                             maxlength="32">
-                                                         <div class="input-group-append">
-                                                             <button class="btn btn-secondary" type="button"
-                                                                 onclick="myFunction1()"><i class="fa fa-eye"
-                                                                     aria-hidden="true"></i></button>
-                                                         </div>
-                                                     </div>
-                                                     <div class="row">
-                                                         <span class="error"><?php echo $confirmPasswordErr; ?></span>
-                                                     </div>
+                                                        <button class="btn btn-secondary" type="button"
+                                                            onclick="togglePasswordVisibility('myInput7')"><i
+                                                                class="fa fa-eye" aria-hidden="true"></i></button>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <span class="error"><?php echo $confirmPasswordErr; ?></span>
+                                                </div>
 
-                                                     <br>
+                                                <br>
 
-                                                     <div class="d-flex justify-content-center">
-                                                         <button type="submit" name="submit"
-                                                             class="btn btn-primary btn-block btn-md">Add
-                                                             account</button>
-                                                     </div>
-                                                     <br>
-                                                     <a href="home_page.php"><u>back</u></a>
+                                                <div class="d-flex justify-content-center">
+                                                    <button type="submit" name="submit"
+                                                        class="btn btn-primary btn-block btn-md">Add
+                                                        account</button>
+                                                </div>
+                                                <br>
+                                                <a href="home_page.php"><u>back</u></a>
 
-                                                 </form>
-                                             </div>
-                                         </div>
-                                     </div>
-                                 </div>
-                             </div>
-                         </div>
-                     </section>
-                 </div>
-
-                 <script>
-                 function myFunction() {
-                     var x = document.getElementById("myInput");
-                     if (x.type === "password") {
-                         x.type = "text";
-                     } else {
-                         x.type = "password";
-                     }
-                 }
-
-                 function myFunction1() {
-                     var x = document.getElementById("myInput1");
-                     if (x.type === "password") {
-                         x.type = "text";
-                     } else {
-                         x.type = "password";
-                     }
-                 }
-                 </script>
-
-                 <?php }  ?>
-
-             </div>
-             <!-- content-wrapper ends -->
-             <?php include('include/footer.php');?>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+        <!-- content-wrapper ends -->
+        <?php include('include/footer.php'); }  ?>

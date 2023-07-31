@@ -1,20 +1,18 @@
   <?php
-  // session_start();
   include ('config.php');
   if(isset($_SESSION['logined'])&& isset($_SESSION['roleid'])){
-  $id = $_SESSION['logined'];
+  $_SESSION['logined'];
   }
   else
   {
     header('location:login-form.php');
   }
-  $sql1="SELECT * FROM `register` WHERE `id`=$id ";
+  $sql1="SELECT * FROM `register` WHERE `id`='{$_SESSION['logined']}' ";
   $data=mysqli_query($conn,$sql1);
   $result=mysqli_num_rows($data);
   $details=mysqli_fetch_assoc($data);
   include('header-links.php');
   ?>
-
 
   <div class="container-scroller">
       <!-- partial:partials/_navbar.html -->

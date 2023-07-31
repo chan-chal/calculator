@@ -4,8 +4,7 @@ include('include/config.php');
 include('include/header.php');
 include('include/sidebar.php');
 
-if (isset($_SESSION['logined'])&& isset($_SESSION['roleid'])) {
-
+if (isset($_SESSION['logined']) && isset($_SESSION['roleid'])) {
     $id = $_GET['id'];
     $sql = "SELECT password FROM `register` WHERE id='$id'";
     $data = mysqli_query($conn, $sql);
@@ -34,6 +33,7 @@ if (isset($_SESSION['logined'])&& isset($_SESSION['roleid'])) {
                 $oldpassErr = "Wrong password";
             }
         }
+
         // new password
         if (empty($_POST['newpass'])) {
             $newpassErr = 'Please fill the password';
@@ -59,7 +59,7 @@ if (isset($_SESSION['logined'])&& isset($_SESSION['roleid'])) {
         }
 
         if ($oldpassword == $renewpassword) {
-            $renewpasswordErr = 'New password cannot be the same as old password';
+            $renewpasswordErr = 'New password cannot be the same as the old password';
         }
 
         if (empty($oldpassErr) && empty($newpassErr) && empty($renewpasswordErr)) {
@@ -68,17 +68,10 @@ if (isset($_SESSION['logined'])&& isset($_SESSION['roleid'])) {
             $result = mysqli_query($conn, $update);
 
             if ($result) {
-                echo "<script>";
-                echo " Swal.fire({
-                    icon: 'success',
-                    title: 'Success',
-                    text: 'Password Updated successfully!',
-                    showConfirmButton: false,
-                    timer: 2500
-                  }).then(() => {
-                    window.location.href = 'all_user_page.php';
-                  })";
-                  echo "</script>";
+                        $title='Success';
+                        $text='Password Updated successfully!';
+                        $redirection='all_user_page.php';
+                        include('success-swal.php');
             } else {
                 echo "Unable to Update Password";
             }
@@ -163,16 +156,5 @@ if (isset($_SESSION['logined'])&& isset($_SESSION['roleid'])) {
 
     </div>
     <!-- content-wrapper ends -->
-    <?php include('include/footer.php'); ?>
 </div>
-
-        <script>
-            function togglePasswordVisibility(inputId) {
-                var x = document.getElementById(inputId);
-                if (x.type === "password") {
-                    x.type = "text";
-                } else {
-                    x.type = "password";
-                }
-            }
-        </script>
+<script src="include/footer.js"></script>

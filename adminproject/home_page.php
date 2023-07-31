@@ -1,32 +1,33 @@
 <?php
-  session_start();
-  include('include/header.php');
-  include('include/sidebar.php');
-  include('include/config.php');
-  if(isset($_SESSION['logined'])&& isset($_SESSION['roleid'])){
-$sql="SELECT
-  (SELECT MAX(id) FROM register) AS max_register_id,
-  (SELECT COUNT(*) FROM register WHERE status = 0) AS count_status_zero,
-  (SELECT MAX(id) FROM password_reset) AS max_password_reset_id
-FROM dual";
-$result = mysqli_query($conn, $sql);
-if ($result) {
-    $row = mysqli_fetch_assoc($result);
-    $maxId = $row['max_register_id'];
-    $countStatusZero = $row['count_status_zero'];
-    $passwordResetId = $row['max_password_reset_id'];
-} else {
-    echo "Error: " . mysqli_error($connection);
-    }
-  }
+session_start();
+include('include/header.php');
+include('include/sidebar.php');
+include('include/config.php');
 
+if (isset($_SESSION['logined']) && isset($_SESSION['roleid'])) {
+    $sql = "SELECT
+        (SELECT MAX(id) FROM register) AS max_register_id,
+        (SELECT COUNT(*) FROM register WHERE status = 0) AS count_status_zero,
+        (SELECT MAX(id) FROM password_reset) AS max_password_reset_id
+    FROM dual";
+
+    $result = mysqli_query($conn, $sql);
+
+    if ($result) {
+        $row = mysqli_fetch_assoc($result);
+        $maxId = $row['max_register_id'];
+        $countStatusZero = $row['count_status_zero'];
+        $passwordResetId = $row['max_password_reset_id'];
+    } else {
+        echo "Error: " . mysqli_error($connection);
+    }
+}
 ?>
+
 <div class="main-panel">
     <div class="content-wrapper">
-
         <div class="container">
             <div class="row">
-
                 <div class="col-lg-4 mt-3">
                     <div class="card l-bg-cherry">
                         <div class="card-statistic-3 p-4" style="height: 200px;color:white;">
@@ -51,7 +52,6 @@ if ($result) {
                         </div>
                     </div>
                 </div>
-
 
                 <div class="col-4 mt-3">
                     <div class="card l-bg-blue-dark">
@@ -106,9 +106,4 @@ if ($result) {
         </div>
     </div>
 
-
-
-
-    <?php
-include ('include/footer.php');
-?>
+    <?php include ('include/footer.php'); ?>

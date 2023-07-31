@@ -14,41 +14,23 @@
   if(isset($_POST['yes'])){
       $id=$_POST['yes'];
     }
-    // $sql1="DELETE FROM `register` WHERE `id`='$id'";
     $sql1="UPDATE `register` set `status`='1' WHERE `id`='$id'";
     $data=mysqli_query($conn,$sql1);
     if($data){
-        echo "<script>";
-        echo " Swal.fire({
-            icon: 'success',
-            title: 'Success',
-            text: 'Deleted successfully!',
-            showConfirmButton: false,
-            timer: 2500
-        }).then(() => {
-            window.location.href = 'home_page.php';
-        })";
-        echo "</script>";
+        $text="Deleted Successfully!";
+        $title="Success";
+        $redirection='all_user_page.php';
+    include('success-swal.php');
     }
     else
     {
-        echo "<script>";
-        echo " Swal.fire({
-            icon: 'error',
-            title: 'Error',
-            text: 'Unable to delete!',
-            showConfirmButton: false,
-            timer: 2500
-        }).then(() => {
-            window.location.href = 'all_user_page.php';
-        })";
-        
-        echo "</script>";
+        $text="Unable to delete!";
+        $title="Error";
+        $redirection='all_user_page.php';
+    include('failed-swal.php');    
     }
 }
-  ?>
-      
-          
+  ?> 
        </div>
         <!-- content-wrapper ends -->
  <?php include('include/footer.php');?>

@@ -43,59 +43,6 @@
                </div>
            </div>
        </div>
-
-       <!-- remove admin modal -->
-       <div class="modal fade" id="exampleModalLonggg" tabindex="-1" role="dialog"
-           aria-labelledby="exampleModalLongggTitle" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLongggTitle">Are you sure?</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body">
-                       Do you really want to remove this account as an admin?
-                   </div>
-                   <div class="modal-footer">
-                       <button type="button" class="btn btn-success text-white" data-dismiss="modal">No</button>
-                       <form action="remove_admin.php" method="POST">
-                           <input type="hidden" name="remove" value="" id="remove-btn">
-                           <button type="submit" class="btn btn-danger text-white modal-btn">Yes</button>
-                       </form>
-                   </div>
-               </div>
-           </div>
-       </div>
-
-       <!-- Add admin modal -->
-       <div class="modal fade" id="exampleModalLongge" tabindex="-1" role="dialog"
-           aria-labelledby="exampleModalLonggeTitle" aria-hidden="true">
-           <div class="modal-dialog" role="document">
-               <div class="modal-content">
-                   <div class="modal-header">
-                       <h5 class="modal-title" id="exampleModalLonggeTitle">Are you sure?</h5>
-                       <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                           <span aria-hidden="true">&times;</span>
-                       </button>
-                   </div>
-                   <div class="modal-body">
-                       Do you really want to elevate this profile to admin status?
-                   </div>
-                   <div class="modal-footer">
-                       <button type="button" class="btn btn-success text-white" data-dismiss="modal">No</button>
-                       <form action="add_new_admin.php" method="POST">
-                           <input type="hidden" name="addadmin" value="" id="addadmin-btn">
-                           <button type="submit" name="no" id="heewk"
-                               class="btn btn-danger text-white modal-btn">Yes</button>
-                       </form>
-                   </div>
-               </div>
-           </div>
-       </div>
-
-
        <!-- plugins:js -->
        <script src="vendors/js/vendor.bundle.base.js"></script>
        <!-- endinject -->
@@ -117,36 +64,14 @@
        <script src="js/dashboard.js"></script>
        <script src="js/Chart.roundedBarCharts.js"></script>
        <!-- requried for users data table -->
-
-
-
        <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
        <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.min.js"></script>
        <script src="https://cdn.datatables.net/1.13.5/js/dataTables.bootstrap5.min.js"></script>
-
+       <script src="include/footer.js"></script>
 <script>
 $(document).ready(function() {
     $('#example').DataTable();
 });
-       </script>
-
-       <!-- delete button -->
-       <script>
-function getDeleteElementId(id) {
-    document.getElementById('delete-btn').setAttribute('value', id);
-}
-       </script>
-       <!-- remove admin button -->
-       <script>
-function getDeleteElementId(id) {
-    document.getElementById('remove-btn').setAttribute('value', id);
-}
-       </script>
-       <!-- remove admin button -->
-       <script>
-function getDeleteElementId(id) {
-    document.getElementById('addadmin-btn').setAttribute('value', id);
-}
        </script>
        <!-- End custom js for this page-->
        </body>

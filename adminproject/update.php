@@ -1,224 +1,177 @@
 <?php
 session_start();
-if(isset($_SESSION['logined'])&& isset($_SESSION['roleid'])){
- include('include/header.php');
- include('include/sidebar.php');         
-include ('include/config.php');
-// include('header.php');
-$id=$_GET['id'];
-$sql="SELECT * FROM `register` where id='$id'";
-$data=mysqli_query($conn,$sql);
-$result=mysqli_num_rows($data);
-$details=mysqli_fetch_assoc($data);
+if (isset($_SESSION['logined']) && isset($_SESSION['roleid'])) {
+    include('include/header.php');
+    include('include/sidebar.php');
+    include('include/config.php');
+    $id = $_GET['id'];
+    $sql = "SELECT * FROM `register` WHERE id='$id'";
+    $data = mysqli_query($conn, $sql);
+    $result = mysqli_num_rows($data);
+    $details = mysqli_fetch_assoc($data);
 
-// Define variables to store form data and error messages
-$name = $phone = $email = $address = $password = $confirmPassword = '';
-$nameErr = $phoneErr = $fileErr= $emailErr = $addressErr = $passwordErr = $confirmPasswordErr = '';
+    // Define variables to store form data and error messages
+    $name = $phone = $email = $address = $password = $confirmPassword = '';
+    $nameErr = $phoneErr = $fileErr = $emailErr = $addressErr = $passwordErr = $confirmPasswordErr = '';
 
-// Function to sanitize and validate input data
-function sanitizeInput($data) {
-  $data = trim($data);
-  $data = stripslashes($data);
-  $data = htmlspecialchars($data);
-  return $data;
-}
- 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-
-  // Validate name
-  if (empty($_POST['name'])) {
-    $nameErr = 'Name is required';
-  } else {
-    $name = sanitizeInput($_POST['name']);
-    // Check if name contains only letters and whitespace
-    if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-      $nameErr = 'Only letters and whitespace allowed';
+    // Function to sanitize and validate input data
+    function sanitizeInput($data)
+    {
+        $data = trim($data);
+        $data = stripslashes($data);
+        $data = htmlspecialchars($data);
+        return $data;
     }
-  }
 
-  $allowedExtensions = ['jpeg', 'jpg', 'avif', 'png'];
-  $uploadedFile = $_FILES['uploadfile']['name']; // Assuming you are using a file upload form
-  $fileExtension = strtolower(pathinfo($uploadedFile, PATHINFO_EXTENSION));
-  
-  if (!in_array($fileExtension, $allowedExtensions)) {
-      // File extension is not allowed
-      $fileErr =  "Invalid file type. Only JPEG, AVIF, and PNG images are allowed.";
-      // You can choose to exit the script or take other appropriate action
-  }
-  // Validate phone
-  if (empty($_POST['phone'])) {
-    $phoneErr = 'Phone number is required';
-  } else {
-    $phone = sanitizeInput($_POST['phone']);
-      if(!preg_match("/^[0-9]{10}$/", $phone)) {
-          $phoneErr="Mobile must have 10 digits";
+    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+
+      // validate role
+      if(empty($_POST['select_box'])){
+        $selectErr='Please Select the role';
+      }
+
+        // Validate name
+        if (empty($_POST['name'])) {
+            $nameErr = 'Name is required';
+        } else {
+            $name = sanitizeInput($_POST['name']);
+            // Check if name contains only letters and whitespace
+            if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+                $nameErr = 'Only letters and whitespace allowed';
+            }
         }
-    }
 
+        $allowedExtensions = ['jpeg', 'jpg', 'avif', 'png'];
+        $uploadedFile = $_FILES['uploadfile']['name']; // Assuming you are using a file upload form
+        $fileExtension = strtolower(pathinfo($uploadedFile, PATHINFO_EXTENSION));
 
-  // Validate email
-  if (empty($_POST['email'])) {
-    $emailErr = 'Email is required';
-  } else {
-  $email = sanitizeInput($_POST['email']);
-  // Check if email is valid
-  // if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if (!in_array($fileExtension, $allowedExtensions)) {
+            // File extension is not allowed
+            $fileErr =  "Invalid file type. Only JPEG, AVIF, and PNG images are allowed.";
+            // You can choose to exit the script or take other appropriate action
+        }
 
-  if(!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix",$email)){ 
-  $emailErr = 'Invalid email format';
-    }
-  }
-
-  // Validate address
-  if (empty($_POST['address'])) {
-    $addressErr = 'Address is required';
-  } else {
-    $address = sanitizeInput($_POST['address']);
-  }
-  
-  if (empty($nameErr)&& empty($phoneErr) && empty($emailErr) && empty($addressErr)) {
-    if($email==$details['email'])
-    {
-  
-  $image=$_FILES['uploadfile'];
-  if(!empty($_FILES['uploadfile']['name'])){
-  $names=$_FILES['uploadfile']['name'];
-  $tempname=$_FILES['uploadfile']['tmp_name'];
-  $folder="images/".$names;
-
-  move_uploaded_file($tempname,$folder);
-  $sql="UPDATE `register` SET `name`='$name',`profile_image`='$names',`email`='$email',address='$address',phone='$phone' WHERE id='$id'";
-  $res=mysqli_query($conn,$sql);
-  echo $res;
-  if($res>0)
-                {
-                  echo "<script>";
-                  echo " Swal.fire({
-                      icon: 'success',
-                      title: 'Success',
-                      text: 'Updated successfully!',
-                      showConfirmButton: false,
-                      timer: 2500
-                    }).then(() => {
-                      window.location.href = 'all_user_page.php';
-                    })";
-                    echo "</script>";
-
-                }
-else 
-            {
-    echo "Unable to Update";
+        // Validate phone
+        if (empty($_POST['phone'])) {
+            $phoneErr = 'Phone number is required';
+        } else {
+            $phone = sanitizeInput($_POST['phone']);
+            if (!preg_match("/^[0-9]{10}$/", $phone)) {
+                $phoneErr = "Mobile must have 10 digits";
             }
-    }
+        }
 
-
-else
-{
-    $sql="UPDATE `register` SET `name`='$name',`email`='$email',`address`='$address',`phone`='$phone'WHERE `id`='$id'";
-    $res=mysqli_query($conn,$sql);
-    if($res>0)
-                {          
-                  echo "<script>";
-                  echo " Swal.fire({
-                      icon: 'success',
-                      title: 'Success',
-                      text: 'Updated successfully!',
-                      showConfirmButton: false,
-                      timer: 2500
-                    }).then(() => {
-                      window.location.href = 'all_user_page.php';
-                    })";
-              
-                    echo "</script>";
-                }
-else 
-            {
-    echo "Unable to Update";
+        // Validate email
+        if (empty($_POST['email'])) {
+            $emailErr = 'Email is required';
+        } else {
+            $email = sanitizeInput($_POST['email']);
+            // Check if email is valid
+            if (!preg_match("/^([a-z0-9\+_\-]+)(\.[a-z0-9\+_\-]+)*@([a-z0-9\-]+\.)+[a-z]{2,6}$/ix", $email)) {
+                $emailErr = 'Invalid email format';
             }
-}
+        }
+      //  echo $selectbox=$_POST['select_box'];
+        // Validate address
+        if (empty($_POST['address'])) {
+            $addressErr = 'Address is required';
+        } else {
+            $address = sanitizeInput($_POST['address']);
+        }
 
-}
-
-  else
-  {
-    if($email!==$details['email'])
-    {
-      $email_sql = "SELECT * FROM `register` WHERE `email`='$email'"; 
-      $run = mysqli_query($conn,$email_sql);
-      $count = mysqli_num_rows($run);
-      $row= mysqli_fetch_assoc($run);
-      $secondary_email=$row['email'];
-    if($count>0)
-    {
-      $emailErr= " Please try another email this email already exists";
-    }
-    else
-    {
-      $image=$_FILES['uploadfile'];
-      if(!empty($_FILES['uploadfile']['name'])){
-      $names=$_FILES['uploadfile']['name'];
-      $tempname=$_FILES['uploadfile']['tmp_name'];
-      $folder="images/".$names;
-    
-      move_uploaded_file($tempname,$folder);
-      $sql="UPDATE `register` SET `name`='$name',`profile_image`='$names',`email`='$email',address='$address',phone='$phone' WHERE id='$id'";
-      $res=mysqli_query($conn,$sql);
-      echo $res;
-      if($res>0)
-                    {    
-                      echo "<script>";
-                      echo " Swal.fire({
-                          icon: 'success',
-                          title: 'Success',
-                          text: 'Updated successfully!',
-                          showConfirmButton: false,
-                          timer: 2500
+        if (empty($nameErr) && empty($phoneErr) && empty($emailErr) && empty($addressErr)) {
+            if ($email == $details['email']) {
+                $image = $_FILES['uploadfile'];
+                if (!empty($_FILES['uploadfile']['name']) || !empty($_POST['select_box'])) {
+                    $names = $_FILES['uploadfile']['name'];
+                    $tempname = $_FILES['uploadfile']['tmp_name'];
+                    $folder = "images/" . $names;
+                    // $selectbox=$_POST['select_box'];
+                    move_uploaded_file($tempname, $folder);
+                    $sql = "UPDATE `register` SET `name`='$name',`profile_image`='$names',`email`='$email',address='$address',phone='$phone'  WHERE id='$id'";
+                    $res = mysqli_query($conn, $sql);
+                    echo $res;
+                    if ($res > 0) {
+                        echo "<script>";
+                        echo " Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Updated successfully!',
+                            showConfirmButton: false,
+                            timer: 2500
                         }).then(() => {
-                          window.location.href = 'home_page.php';
+                            window.location.href = 'all_user_page.php';
                         })";
                         echo "</script>";
-                        }
-    else 
-                {
-        echo "Unable to Update";
-                }
-        }
-    
-    
-    else
-    {
-        $sql="UPDATE `register` SET `name`='$name',`email`='$email',`address`='$address',`phone`='$phone'WHERE `id`='$id'";
-        $res=mysqli_query($conn,$sql);
-        if($res>0)
-                    {          
-                      echo "<script>";
-                      echo " Swal.fire({
-                          icon: 'success',
-                          title: 'Success',
-                          text: 'Updated successfully!',
-                          showConfirmButton: false,
-                          timer: 2500
-                        }).then(() => {
-                          window.location.href = 'home_page.php';
-                        })";
-                        echo "</script>";
+                    } else {
+                        echo "Unable to Update";
                     }
-    else 
-                {
-        echo "Unable to Update";
+                } else {
+                    $sql = "UPDATE `register` SET `name`='$name',`email`='$email',`address`='$address',`phone`='$phone'WHERE `id`='$id'";
+                    $res = mysqli_query($conn, $sql);
+                    if ($res > 0) {
+                        echo "<script>";
+                        echo " Swal.fire({
+                            icon: 'success',
+                            title: 'Success',
+                            text: 'Updated successfully!',
+                            showConfirmButton: false,
+                            timer: 2500
+                        }).then(() => {
+                            window.location.href = 'all_user_page.php';
+                        })";
+                        echo "</script>";
+                    } else {
+                        echo "Unable to Update";
+                    }
                 }
+            } else {
+                $email_sql = "SELECT * FROM `register` WHERE `email`='$email'";
+                $run = mysqli_query($conn, $email_sql);
+                $count = mysqli_num_rows($run);
+                $row = mysqli_fetch_assoc($run);
+                $secondary_email = $row['email'];
+                if ($count > 0) {
+                    $emailErr = "Please try another email; this email already exists";
+                } else {
+                    $image = $_FILES['uploadfile'];
+                    if (!empty($_FILES['uploadfile']['name'])) {
+                        $names = $_FILES['uploadfile']['name'];
+                        $tempname = $_FILES['uploadfile']['tmp_name'];
+                        $folder = "images/" . $names;
+
+                        move_uploaded_file($tempname, $folder);
+                        $sql = "UPDATE `register` SET `name`='$name',`profile_image`='$names',`email`='$email',address='$address',phone='$phone' WHERE id='$id'";
+                        $res = mysqli_query($conn, $sql);
+                        echo $res;
+                        if ($res > 0) {
+                            $title='Success';
+                            $text='Updated successfully!';
+                            $redirection='home_page.php';
+                            include('success-swal.php');
+                        } else {
+                            echo "Unable to Update";
+                        }
+                    } else {
+                        $sql = "UPDATE `register` SET `name`='$name',`email`='$email',`address`='$address',`phone`='$phone'WHERE `id`='$id'";
+                        $res = mysqli_query($conn, $sql);
+                        if ($res > 0) {
+                                $title='Success';
+                                $text='Updated successfully!';
+                                $redirection='home_page.php';
+                                include('success-swal.php');
+                        } else {
+                            echo "Unable to Update";
+                        }
+                    }
+                }
+            }
+        } else {
+            $emailErr = "Already exists";
         }
-    
-      }
     }
-  }
-  }
-      else
-      {
-        $emailErr= "Already exists";
-      }
-  } 
 ?>
+
 
 <!-- partial -->
 <div class="main-panel">

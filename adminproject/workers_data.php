@@ -1,6 +1,5 @@
 <?php 
 session_start();
-
     include('include/config.php');
     include('include/header.php');
     include('include/sidebar.php');
@@ -52,10 +51,7 @@ session_start();
                                             <a style=color:white; data-toggle="modal" data-target="#exampleModalLongg"
                                                 onclick="getDeleteElementId(<?php echo $details['id'] ?>);"
                                                 href='#'>Delete</a></button>
-                                        <!-- <button name="adminremove" class="btn btn-secondary btn-md">
-                                <a style=color:white; data-toggle="modal" data-target="#exampleModalLonggg"
-                                    onclick="getDeleteElementId();"
-                                    href='#'>Remove admin</a></button> -->
+
                                     </td>
                                     <?php } ?>
                                 </tr>
