@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.min.css'></link> -->
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.20/dist/sweetalert2.all.min.js"></script>
+</head>
+<body>
+    
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js"></script>
+       <script>
+                    // swal("Have a nice day!");  
+           Swal.fire({
+               icon: 'success',
+               title: 'title',
+               text: 'text',
+               showConfirmButton: false,
+               timer: 2500
+            }).then(() => {
+                window.location.href = 'login-form.php';
+            })
+            </script> 
+</body>
+</html>
